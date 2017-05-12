@@ -4,17 +4,49 @@ import org.junit.Test;
 
 import java.io.IOException;
 
+import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertNotNull;
 import static junit.framework.TestCase.assertTrue;
 
 /**
- * Created by alessandrozonta on 11/05/2017.
+ * Created by Alessandro Zonta on 11/05/2017.
+ * PhD Situational Analytics
+ * <p>
+ * Computational Intelligence Group
+ * Computer Science Department
+ * Faculty of Sciences - VU University Amsterdam
+ * <p>
+ * a.zonta@vu.nl
  */
 public class ReadConfigTest {
+    @Test
+    public void getPath() throws Exception {
+        //test if I return a path -> that is not null and is the combination of location + name
+        ReadConfig conf = new ReadConfig();
+        try {
+            conf.getPath();
+        } catch (Exception e) {
+            assertTrue(e.getMessage().equals("Try to access config file before reading it.") );
+        }
+        try {
+            conf.readFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        assertNotNull(conf.getPath());
+        String total = conf.getFileLocation() + "/" + conf.getFileName();
+        assertEquals(total, conf.getPath());
+    }
+
     @Test
     public void getFileLocation() throws Exception {
         //test if I return a location -> that is not null
         ReadConfig conf = new ReadConfig();
+        try {
+            conf.getFileLocation();
+        } catch (Exception e) {
+            assertTrue(e.getMessage().equals("Try to access config file before reading it.") );
+        }
         try {
             conf.readFile();
         } catch (IOException e) {
@@ -27,6 +59,11 @@ public class ReadConfigTest {
     public void getFileName() throws Exception {
         //test if I return a name -> that is not null
         ReadConfig conf = new ReadConfig();
+        try {
+            conf.getFileName();
+        } catch (Exception e) {
+            assertTrue(e.getMessage().equals("Try to access config file before reading it.") );
+        }
         try {
             conf.readFile();
         } catch (IOException e) {
