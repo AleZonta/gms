@@ -217,6 +217,7 @@ public class GraphMLImporter<V, E> implements GraphGenerator<V, E, V> {
                 V sourceV = stringVMap.get(source);
                 V targetV = stringVMap.get(target);
 
+
                 // create and add the edge
                 E newEdge = veGraph.addEdge(sourceV, targetV);
 
@@ -229,7 +230,14 @@ public class GraphMLImporter<V, E> implements GraphGenerator<V, E, V> {
     private static class DummyAttributeHandler<O> implements AttributeHandler<O> {
         @Override
         public void handle(O obj, String id, AttributeGetter getter) {
-            // do nothing
+            // if obj is an edge I can add the attribute to that class
+            if (obj.getClass().equals(InfoEdge.class)){
+                ((InfoEdge)obj).setValues(getter);
+            }else{
+                if (obj.getClass().equals(InfoNode.class)){
+                    ((InfoNode)obj).setValues(getter);
+                }
+            }
         }
     }
 

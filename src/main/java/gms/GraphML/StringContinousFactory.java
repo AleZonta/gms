@@ -25,12 +25,10 @@
 
 package gms.GraphML;
 
-import org.jgrapht.VertexFactory;
-
 /**
 * @author Soren A. Davidsen <soren@tanesha.net>
 */
-public class StringContinousFactory implements VertexFactory<String> {
+public class StringContinousFactory{
 
     public static StringContinousFactory FACTORY() {
         return new StringContinousFactory();
@@ -50,7 +48,6 @@ public class StringContinousFactory implements VertexFactory<String> {
         this.n =  start;
     }
 
-    @Override
     public String createVertex() {
         return prefix + (n++);
     }

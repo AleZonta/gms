@@ -2,8 +2,8 @@ package gms.GraphML;
 
 import gms.ReadConfig;
 import org.jgrapht.Graph;
-import org.jgrapht.graph.DefaultDirectedGraph;
 import org.jgrapht.graph.DefaultEdge;
+import org.jgrapht.graph.DirectedPseudograph;
 import org.junit.Test;
 
 import java.io.File;
@@ -12,6 +12,7 @@ import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 
+import static gms.GraphML.StringContinousFactory.FACTORY;
 import static junit.framework.TestCase.assertNotNull;
 
 /**
@@ -46,14 +47,17 @@ public class GraphMLImporterTest {
         File file = path.toFile();
 
         //In this way I have created a reader.
-        GraphMLImporter<String, DefaultEdge> result = GraphMLImporter.createFromFile(file);
+        GraphMLImporter<InfoNode, InfoEdge> result = GraphMLImporter.createFromFile(file);
 
         //Now I have to put the graph into a graph object
-        Graph<String, DefaultEdge> g = new DefaultDirectedGraph<String, DefaultEdge>(DefaultEdge.class);
-        Map<String, String> map = new HashMap<String, String>();
+        Graph<InfoNode, InfoEdge> g = new DirectedPseudograph<>(InfoEdge.class);
+        Map<String, InfoNode> map = new HashMap<>();
 
-        result.generateGraph(g, new StringContinousFactory(), map);
-        
+
+        result.generateGraph(g, new InfoNode(FACTORY()), map);
+
+        assertNotNull(g);
+
     }
 
 }
