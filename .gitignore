@@ -1,6 +1,14 @@
 
-*.xml
-
 *.iml
 
 *.class
+
+target/gms-1.0-SNAPSHOT.jar
+
+*.properties
+
+*.lst
+
+*.jar
+
+.idea/
