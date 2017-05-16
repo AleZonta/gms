@@ -72,7 +72,7 @@ public class ReadConfig {
      */
     public void readFile() throws Exception {
         //config file has to be located in the same directory as the program is
-        String currentPath = Paths.get(".").toAbsolutePath().normalize().toString() + "/graph_setting.json";
+        String currentPath = Paths.get(".").toAbsolutePath().normalize().toString() + "/settings.json";
         //file is a json file, need to parse it and than I can read it
         FileReader reader;
         try {

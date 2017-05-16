@@ -32,9 +32,9 @@ import static gms.GraphML.StringContinousFactory.FACTORY;
  * This class loads the graph of all the path from file.
  */
 public class Loader {
-    private ReadConfig conf; //configuration object containing location where to read the graph
+    private final ReadConfig conf; //configuration object containing location where to read the graph
     private static final Logger logger = Logger.getLogger(Loader.class.getName()); //logger for this class
-    private Graph<InfoNode, InfoEdge> graph; //graph
+    private final Graph<InfoNode, InfoEdge> graph; //graph
 
 
     /**
@@ -46,11 +46,6 @@ public class Loader {
         this.conf = new ReadConfig();
         this.conf.readFile();
         this.graph = new DirectedPseudograph<>(InfoEdge.class); //allows loops and multi-edges
-
-        //logger action
-//        ConsoleHandler consoleHandler = new ConsoleHandler();
-//        logger.addHandler(consoleHandler);
-
     }
 
 
