@@ -1,6 +1,6 @@
 package gms.GraphML;
 
-import gms.ReadConfig;
+import gms.Config.ReadConfig;
 import org.jgrapht.Graph;
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.DirectedPseudograph;

@@ -60,4 +60,22 @@ public class InfoEdge extends DefaultEdge {
         return this.values.getOrDefault("length", null);
     }
 
+    /**
+     * Override Getter for the source of the edge
+     * @return node that is at the source
+     */
+    @Override
+    public InfoNode getSource() {
+        return (InfoNode)super.getSource();
+    }
+
+    /**
+     * Override Getter for the target of the edge
+     * @return node that is at the source
+     */
+    @Override
+    public InfoNode getTarget() {
+        return (InfoNode)super.getTarget();
+    }
+
 }

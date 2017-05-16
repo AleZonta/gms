@@ -1,5 +1,6 @@
-package gms;
+package gms.Config;
 
+import gms.Config.ReadConfig;
 import org.junit.Test;
 
 import java.io.IOException;

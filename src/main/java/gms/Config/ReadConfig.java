@@ -1,4 +1,4 @@
-package gms;
+package gms.Config;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;

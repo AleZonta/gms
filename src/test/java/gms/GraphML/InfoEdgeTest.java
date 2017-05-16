@@ -21,6 +21,16 @@ import static org.junit.Assert.assertNull;
  */
 public class InfoEdgeTest {
     @Test
+    public void getSource() throws Exception {
+        //tested in real time. It uses something from external library
+    }
+
+    @Test
+    public void getTarget() throws Exception {
+        //tested in real time. It uses something from external library
+    }
+
+    @Test
     public void setValues1() throws Exception {
         //tested in real time. It uses something from external library
     }
