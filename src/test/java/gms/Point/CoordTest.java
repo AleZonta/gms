@@ -16,6 +16,18 @@ import static org.junit.Assert.*;
  */
 public class CoordTest {
     @Test
+    public void distance() throws Exception {
+        Coord start = new Coord(52.047668,4.335758);
+        Coord end = new Coord(52.028237, 4.312322);
+        assertEquals(new Double(0.0304436),start.distance(end),0.005);
+
+        start = new Coord(52.038964, 4.312761);
+        end = new Coord(52.0368369, 4.2941565);
+        assertEquals(new Double(0.0187257), start.distance(end),0.005);
+        System.out.println(start.distance(end));
+    }
+
+    @Test
     public void setLat() throws Exception {
         Coord coord = new Coord();
         coord.setLat(123.4);

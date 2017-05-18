@@ -16,6 +16,24 @@ public class Coord {
     private Double latitude;
     private Double longitude;
 
+    /**
+     * Constructor with zero parameters.
+     * Puts everything at zero
+     */
+    public Coord(){
+        this.longitude = null;
+        this.latitude = null;
+    }
+
+    /**
+     * Constructor with two parameters (the coordinates of a point)
+     * @param longitude Double value representing longitude
+     * @param latitude Double value representing latitude
+     */
+    public Coord(Double longitude, Double latitude){
+        this.longitude = longitude;
+        this.latitude = latitude;
+    }
 
     /**
      * setter for latitude
@@ -64,6 +82,18 @@ public class Coord {
         Coord point = (Coord) o;
 
         return point.latitude.equals(this.latitude) && point.longitude.equals(this.longitude);
+    }
+
+
+    /**
+     * Euclidean Distance between two Coordinates
+     * @param other second coordinate used to compute the distance
+     * @return Double value of the distance
+     */
+    public Double distance(Coord other){
+        Double deltaX = this.latitude - other.getLat();
+        Double deltaY = this.longitude - other.getLon();
+        return Math.sqrt(deltaX*deltaX + deltaY*deltaY);
     }
 
 }

@@ -7,6 +7,7 @@ import java.util.Map;
 
 import static gms.GraphML.StringContinousFactory.FACTORY;
 import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
 
 /**
  * Created by Alessandro Zonta on 15/05/2017.
@@ -19,6 +20,29 @@ import static org.junit.Assert.*;
  * a.zonta@vu.nl
  */
 public class InfoNodeTest {
+    @Test
+    public void getValues() throws Exception {
+        Map<String, String> test = new HashMap<>();
+        test.put("x","123");
+        test.put("y","456");
+        InfoNode infoNode = new InfoNode(FACTORY());
+        infoNode.setValues(test);
+        assertNotNull(infoNode.getValues());
+    }
+
+    @Test
+    public void deepCopy() throws Exception {
+        Map<String, String> test = new HashMap<>();
+        test.put("x","123");
+        test.put("y","456");
+        InfoNode infoNode = new InfoNode(FACTORY());
+        infoNode.setValues(test);
+
+        InfoNode secondNode = infoNode.deepCopy();
+        assertNotEquals(infoNode,secondNode);
+
+    }
+
     @Test
     public void getId() throws Exception {
         InfoNode infoNode = new InfoNode(FACTORY());

@@ -37,11 +37,30 @@ public class InfoNode implements VertexFactory<InfoNode> {
     }
 
     /**
+     * Constructor with all the parameter
+     * @param id Id of the node
+     * @param values detail of the node
+     */
+    public InfoNode(String id, Map<String, String> values){
+        this.stringContinousFactory = null;
+        this.id = id;
+        this.values = values;
+    }
+
+    /**
      * Setter for the variable "values"
      * @param values map containing key and value of every values found
      */
     public void setValues(Map<String, String> values) {
         this.values = values;
+    }
+
+    /**
+     * Getter for the variable "values"
+     * @return the map containing the values
+     */
+    public Map<String, String> getValues() {
+        return this.values;
     }
 
     /**
@@ -60,19 +79,19 @@ public class InfoNode implements VertexFactory<InfoNode> {
     }
 
     /**
-     * Return Longitude node
+     * Return Latitude node
      * @return string value or null if not present
      */
-    public String retLon(){
+    public String retLat(){
         //x should be "x" element in this case.
         return this.values.getOrDefault("x", null);
     }
 
     /**
-     * Return Latitude node
+     * Return Longitude node
      * @return string value or null if not present
      */
-    public String retLat(){
+    public String retLon(){
         //x should be "y" element in this case.
         return this.values.getOrDefault("y", null);
     }
@@ -92,5 +111,14 @@ public class InfoNode implements VertexFactory<InfoNode> {
      */
     public String getId() {
         return this.id;
+    }
+
+
+    /**
+     * Deep Copy method for the node
+     * @return deep copy of the node
+     */
+    public InfoNode deepCopy(){
+        return new InfoNode(this.getId(), this.getValues());
     }
 }

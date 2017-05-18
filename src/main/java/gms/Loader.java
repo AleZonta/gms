@@ -8,6 +8,8 @@ import gms.GraphML.InfoNode;
 import gms.Point.Coord;
 import gms.Point.Haversine;
 import org.jgrapht.Graph;
+import org.jgrapht.GraphPath;
+import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
 import org.jgrapht.graph.DirectedPseudograph;
 
 import java.io.File;
@@ -35,6 +37,7 @@ public class Loader {
     private final ReadConfig conf; //configuration object containing location where to read the graph
     private static final Logger logger = Logger.getLogger(Loader.class.getName()); //logger for this class
     private final Graph<InfoNode, InfoEdge> graph; //graph
+    private DijkstraShortestPath<InfoNode, InfoEdge> enginePath;
 
 
     /**
@@ -46,6 +49,7 @@ public class Loader {
         this.conf = new ReadConfig();
         this.conf.readFile();
         this.graph = new DirectedPseudograph<>(InfoEdge.class); //allows loops and multi-edges
+        this.enginePath = null;
     }
 
 
@@ -65,6 +69,9 @@ public class Loader {
         //Now I have to put the graph into a graph object
         Map<String, InfoNode> map = new HashMap<>();
         result.generateGraph(this.graph, new InfoNode(FACTORY()), map);
+
+        //set navigator
+        this.enginePath = new DijkstraShortestPath<>(this.graph);
         logger.log(Level.INFO, "Graph loaded!");
     }
 
@@ -79,13 +86,17 @@ public class Loader {
         Set<InfoNode> setOfNodes = this.graph.vertexSet();
         //save all the distance
         Map<String, Double> distances = new HashMap<>();
-        setOfNodes.stream().forEach(infoNode -> distances.put(infoNode.getId(), Haversine.distance(coord.getLat(), coord.getLon(), new Double(infoNode.retLat()), new Double(infoNode.retLon()))));
+        //Haversine Distance
+        setOfNodes.stream().forEach(infoNode -> distances.put(infoNode.getId(), Haversine.distance(coord.getLon(), coord.getLat(), new Double(infoNode.retLon()), new Double(infoNode.retLat()))));
+        //Euclidean Distance
+//        setOfNodes.stream().forEach(infoNode -> distances.put(infoNode.getId(), new Coord(new Double(infoNode.retLon()), new Double(infoNode.retLat())).distance(coord)));
         //find the min element
         Map.Entry<String, Double> min = Collections.min(distances.entrySet(), Comparator.comparingDouble(Map.Entry::getValue));
 
         //retrieve closest point -> it should never return null
         return setOfNodes.stream().filter(x -> x.getId().equals(min.getKey())).findFirst().orElse(null);
     }
+
 
 
     /**
@@ -105,5 +116,23 @@ public class Loader {
         return realSet;
     }
 
+
+    /**
+     * Method that finds a path between two nodes.
+     * The method is using Dijkstra algorithm from the jgraph library.
+     * @param start start node of the path
+     * @param end end node of the path
+     * @return List of all the nodes of the path
+     * @throws Exception if no path is found the method is raising an exception
+     */
+    public List<InfoNode> findPathBetweenNodes(InfoNode start, InfoNode end) throws Exception {
+        //check if a path is in the system
+        GraphPath result = this.enginePath.getPath(start, end);
+        //if the result is null no path is found
+        if (result == null){
+            throw new Exception("No path is found in the graph");
+        }
+        return result.getVertexList();
+    }
 
 }
