@@ -87,7 +87,7 @@ public class Loader {
         //save all the distance
         Map<String, Double> distances = new HashMap<>();
         //Haversine Distance
-        setOfNodes.stream().forEach(infoNode -> distances.put(infoNode.getId(), Haversine.distance(coord.getLon(), coord.getLat(), new Double(infoNode.retLon()), new Double(infoNode.retLat()))));
+        setOfNodes.stream().forEach(infoNode -> distances.put(infoNode.getId(), Haversine.distance(coord.getLat(), coord.getLon(), infoNode.getLat(), infoNode.getLon())));
         //Euclidean Distance
 //        setOfNodes.stream().forEach(infoNode -> distances.put(infoNode.getId(), new Coord(new Double(infoNode.retLon()), new Double(infoNode.retLat())).distance(coord)));
         //find the min element
@@ -97,6 +97,83 @@ public class Loader {
         return setOfNodes.stream().filter(x -> x.getId().equals(min.getKey())).findFirst().orElse(null);
     }
 
+    /**
+     * Method that find the closest edge to the given coordinates and the node
+     * @param coord coordinate of the point in analysis
+     * @param nodeCoord coordinate of the initial node
+     * @return the closest edge to the coordinate
+     */
+    public InfoEdge findClosestEdge(Coord coord, Coord nodeCoord){
+        //Return all the edges starting from the node
+        InfoNode node = this.findNodes(nodeCoord);
+        Set<InfoEdge> edges = this.findEdges(node);
+        Map<String, Double> distances = new HashMap<>();
+        edges.forEach(e -> distances.put(e.getTarget().getId(), this.retDistance(coord, e)));
+
+        //find the min element
+        Map.Entry<String, Double> min = Collections.min(distances.entrySet(), Comparator.comparingDouble(Map.Entry::getValue));
+        //return the edge or return null
+        return edges.stream().filter(e -> e.getTarget().getId().equals(min.getKey())).findFirst().orElse(null);
+    }
+
+    /**
+     * Return distance between point and line segment
+     * @param point point from where compute the distance
+     * @param edge segment
+     * @return Double number containing the distance
+     */
+    private Double retDistance(Coord point, InfoEdge edge){
+        //x1, y1 to x2, y2 is your line segment
+        Double x1 = edge.getSource().getLat();
+        Double y1 = edge.getSource().getLon();
+        Double x2 = edge.getTarget().getLat();
+        Double y2 = edge.getTarget().getLon();
+        return this.retDistance(point, x1, y1, x2, y2);
+    }
+
+    /**
+     * Return distance between point and line segment
+     * @param point point from where compute the distance
+     * @param x1 segment coordinate
+     * @param y1 segment coordinate
+     * @param x2 segment coordinate
+     * @param y2 segment coordinate
+     * @return Double number containing the distance
+     */
+    private Double retDistance(Coord point, Double x1, Double y1, Double x2, Double y2 ){
+        //x, y is your target point
+        Double x = point.getLat();
+        Double y = point.getLon();
+        Double A = x - x1;
+        Double B = y - y1;
+        Double C = x2 - x1;
+        Double D = y2 - y1;
+
+        Double dot = A * C + B * D;
+        Double len_sq = C * C + D * D;
+        Double param = -1d;
+        if (len_sq != 0) //in case of 0 length line
+            param = dot / len_sq;
+
+        Double xx, yy;
+
+        if (param < 0) {
+            xx = x1;
+            yy = y1;
+        }
+        else if (param > 1) {
+            xx = x2;
+            yy = y2;
+        }
+        else {
+            xx = x1 + param * C;
+            yy = y1 + param * D;
+        }
+
+        Double dx = x - xx;
+        Double dy = y - yy;
+        return Math.sqrt(dx * dx + dy * dy);
+    }
 
 
     /**
@@ -133,6 +210,28 @@ public class Loader {
             throw new Exception("No path is found in the graph");
         }
         return result.getVertexList();
+    }
+
+
+    /**
+     * Method that returns if the edge found is closer than the point found
+     * @param closestEdge the edge that is found to be the closest to the position in consideration
+     * @param nextPoint point found to be the closest one to the position
+     * @param coord position in consideration
+     * @return True if the edge is closer, otherwise False
+     */
+    public Boolean isEdgeCloser(InfoEdge closestEdge, InfoNode nextPoint, Coord coord){
+        //distance between the edge and the position
+        Double distanceEdgePosition = this.retDistance(coord, closestEdge);
+
+        InfoNode node = closestEdge.getSource();
+        //distance between the point found -> start point and the position
+
+        Double distanceLineNewPosition = this.retDistance(coord, node.getLat(), node.getLon(), nextPoint.getLat(), nextPoint.getLon());
+        if (distanceEdgePosition <= distanceLineNewPosition){
+            return Boolean.TRUE;
+        }
+        return Boolean.FALSE;
     }
 
 }

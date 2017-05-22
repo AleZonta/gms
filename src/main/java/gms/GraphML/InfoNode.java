@@ -84,7 +84,16 @@ public class InfoNode implements VertexFactory<InfoNode> {
      */
     public String retLat(){
         //x should be "x" element in this case.
-        return this.values.getOrDefault("x", null);
+        return this.values.getOrDefault("y", null);
+    }
+
+    /**
+     * Return Latitude node
+     * @return double value or null if not present
+     */
+    public Double getLat(){
+        //x should be "x" element in this case.
+        return new Double(this.values.getOrDefault("y", "0.0"));
     }
 
     /**
@@ -93,7 +102,16 @@ public class InfoNode implements VertexFactory<InfoNode> {
      */
     public String retLon(){
         //x should be "y" element in this case.
-        return this.values.getOrDefault("y", null);
+        return this.values.getOrDefault("x", null);
+    }
+
+    /**
+     * Return Longitude node
+     * @return double value or null if not present
+     */
+    public Double getLon(){
+        //x should be "x" element in this case.
+        return new Double(this.values.getOrDefault("x", "0.0"));
     }
 
     /**
@@ -120,5 +138,22 @@ public class InfoNode implements VertexFactory<InfoNode> {
      */
     public InfoNode deepCopy(){
         return new InfoNode(this.getId(), this.getValues());
+    }
+
+    /**
+     * override method equals
+     * @param obj object to compare with this InfoNode
+     * @return if the two nodes are the same or not
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this) return true;
+        if (!(obj instanceof InfoNode)) {
+            return false;
+        }
+
+        InfoNode node = (InfoNode) obj;
+
+        return node.id.equals(this.id) && node.values.equals(this.values);
     }
 }

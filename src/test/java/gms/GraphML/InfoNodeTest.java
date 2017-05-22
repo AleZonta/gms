@@ -21,6 +21,64 @@ import static org.junit.Assert.assertNotNull;
  */
 public class InfoNodeTest {
     @Test
+    public void equals() throws Exception {
+        Map<String, String> test = new HashMap<>();
+        test.put("x","123");
+        test.put("y","456");
+        InfoNode infoNode = new InfoNode(FACTORY());
+        infoNode.setValues(test);
+
+        assertTrue(infoNode.equals(infoNode));
+
+        String obj = "ss";
+
+        assertFalse(infoNode.equals(obj));
+
+        InfoNode infoNode2 = new InfoNode(FACTORY());
+        infoNode2.setValues(test);
+        
+        assertTrue(infoNode.equals(infoNode2));
+    }
+
+    @Test
+    public void getLat() throws Exception {
+        Map<String, String> test = new HashMap<>();
+        test.put("x","123");
+        test.put("y","456");
+        InfoNode infoNode = new InfoNode(FACTORY());
+        infoNode.setValues(test);
+        assertNotNull(infoNode.getLat());
+        assertEquals(new Double(test.get("y")), infoNode.getLat());
+
+
+        Map<String, String> test2 = new HashMap<>();
+        test2.put("xx","123");
+        test2.put("yy","456");
+        infoNode = new InfoNode(FACTORY());
+        infoNode.setValues(test2);
+        assertEquals(new Double(0.0), infoNode.getLat());
+    }
+
+    @Test
+    public void getLon() throws Exception {
+        Map<String, String> test = new HashMap<>();
+        test.put("x","123");
+        test.put("y","456");
+        InfoNode infoNode = new InfoNode(FACTORY());
+        infoNode.setValues(test);
+        assertNotNull(infoNode.getLon());
+        assertEquals(new Double(test.get("x")), infoNode.getLon());
+
+
+        Map<String, String> test2 = new HashMap<>();
+        test2.put("xx","123");
+        test2.put("yy","456");
+        infoNode = new InfoNode(FACTORY());
+        infoNode.setValues(test2);
+        assertEquals(new Double(0.0), infoNode.getLon());
+    }
+
+    @Test
     public void getValues() throws Exception {
         Map<String, String> test = new HashMap<>();
         test.put("x","123");

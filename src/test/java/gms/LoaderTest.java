@@ -10,6 +10,7 @@ import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Created by Alessandro Zonta on 15/05/2017.
@@ -22,6 +23,38 @@ import static org.junit.Assert.assertNotNull;
  * a.zonta@vu.nl
  */
 public class LoaderTest {
+    @Test
+    public void isEdgeCloser() throws Exception {
+        Loader loader = new Loader();
+        loader.loadGraph();
+
+        Coord coordB = new Coord(52.0366015, 4.3027702);
+        InfoEdge closerEdgeToNode = loader.findClosestEdge(coordB, new Coord(52.0366086, 4.3025929));
+
+        Boolean test = loader.isEdgeCloser(closerEdgeToNode, loader.findNodes(coordB), coordB);
+        assertTrue(test);
+    }
+
+    @Test
+    public void findClosestEdge() throws Exception {
+        Loader loader = new Loader();
+        loader.loadGraph();
+
+        Coord start = new Coord(52.033872, 4.315144);
+
+        Coord point = new Coord(52.033654, 4.314779);
+        InfoEdge edge = loader.findClosestEdge(point, start);
+        assertNotNull(edge);
+
+
+        Coord cTest = new Coord(52.0366086, 4.3025929);
+
+        Coord coordB = new Coord(52.0366015, 4.3027702);
+        InfoEdge edgeTest = loader.findClosestEdge(coordB, cTest);
+        assertNotNull(edgeTest);
+
+    }
+
     @Test
     public void findPathBetweenNodes() throws Exception {
         Loader loader = new Loader();
@@ -60,6 +93,14 @@ public class LoaderTest {
 
         InfoNode node = loader.findNodes(coord);
         Set<InfoEdge> sets = loader.findEdges(node);
+
+
+        Coord coordq = new Coord(52.0366086, 4.3025929);
+        InfoNode nodes = loader.findNodes(coordq);
+        Set<InfoEdge> setss = loader.findEdges(node);
+
+        String sasd = "";
+
     }
 
     @Test
@@ -82,6 +123,12 @@ public class LoaderTest {
         assertEquals(coord.getLon().toString(), node.retLon());
         assertEquals(coord.getLat().toString(), node.retLat());
 
+
+
+
+        Coord coords = new Coord(52.0366868, 4.3031489);
+        InfoNode node1 = loader.findNodes(coords);
+        System.out.println(node1.retLat() + " " + node1.retLon());
     }
 
 }

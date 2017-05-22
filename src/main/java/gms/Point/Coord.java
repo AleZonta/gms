@@ -30,7 +30,7 @@ public class Coord {
      * @param longitude Double value representing longitude
      * @param latitude Double value representing latitude
      */
-    public Coord(Double longitude, Double latitude){
+    public Coord(Double latitude, Double longitude){
         this.longitude = longitude;
         this.latitude = latitude;
     }
