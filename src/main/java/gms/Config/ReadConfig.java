@@ -96,4 +96,12 @@ public class ReadConfig {
     }
 
 
+    @Override
+    public String toString() {
+        return "ReadConfig{" + "\n" +
+                "fileName='" + fileName + '\'' + ",\n" +
+                "fileLocation='" + fileLocation + '\'' + ",\n" +
+                "path='" + path + '\'' + "\n" +
+                '}';
+    }
 }
