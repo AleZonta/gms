@@ -1,5 +1,6 @@
 package gms.GraphML;
 
+import gms.Point.Coord;
 import org.junit.Test;
 
 import java.util.HashMap;
@@ -20,6 +21,19 @@ import static org.junit.Assert.assertNotNull;
  * a.zonta@vu.nl
  */
 public class InfoNodeTest {
+    @Test
+    public void getCoord() throws Exception {
+        Map<String, String> test = new HashMap<>();
+        test.put("x","123");
+        test.put("y","456");
+        InfoNode infoNode = new InfoNode(FACTORY());
+        infoNode.setValues(test);
+
+        Coord c = infoNode.getCoord();
+        assertEquals(new Double(456.0) , c.getLat());
+        assertEquals(new Double(123.0) , c.getLon());
+    }
+
     @Test
     public void equals() throws Exception {
         Map<String, String> test = new HashMap<>();

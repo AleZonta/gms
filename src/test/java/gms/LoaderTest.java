@@ -24,6 +24,14 @@ import static org.junit.Assert.assertTrue;
  */
 public class LoaderTest {
     @Test
+    public void retAllEndEdges() throws Exception {
+        Loader loader = new Loader();
+        loader.loadGraph();
+        Coord coordB = new Coord(52.0366015, 4.3027702);
+        assertNotNull(loader.retAllEndEdges(loader.findNodes(coordB)));
+    }
+
+    @Test
     public void isEdgeCloser() throws Exception {
         Loader loader = new Loader();
         loader.loadGraph();

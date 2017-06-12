@@ -234,4 +234,45 @@ public class Loader {
         return Boolean.FALSE;
     }
 
+
+    /**
+     * From the initial node return all the nodes located at the end of the edges starting from it
+     * @param initialNode initial node
+     * @return list of node
+     */
+    public List<InfoNode> retAllEndEdges(InfoNode initialNode){
+        Set<InfoEdge> allTheEdges = this.findEdges(initialNode);
+        List<InfoNode> endNodes = new ArrayList<>();
+        allTheEdges.forEach(infoEdge -> endNodes.add(infoEdge.getTarget()));
+        return endNodes;
+    }
+
+
+    /**
+     * Get distance between two connected node
+     * @param initialNode start node
+     * @param endNode end node
+     * @return distance between them
+     */
+    public Double findDistanceBetweenNodesConnected(InfoNode initialNode, InfoNode endNode){
+        Set<InfoEdge> edges = this.findEdges(initialNode);
+        return new Double(edges.stream().filter(e -> e.getTarget().equals(endNode)).findFirst().get().retDistance());
+    }
+
+
+    /**
+     * Find point in edge between initial node and end node located at distance distance
+     * @param initialNode initial node of the edge
+     * @param endNode end node of the edge
+     * @param distance distance from the start
+     * @return coordinate new point
+     */
+    public Coord findPointInEdge(InfoNode initialNode, InfoNode endNode, Double distance){
+        Double dis = findDistanceBetweenNodesConnected(initialNode, endNode);
+        Double x = initialNode.getLat() - ((distance * (initialNode.getLat() - endNode.getLat()))/dis);
+        Double m = (endNode.getLon() - initialNode.getLon())/(endNode.getLat() - initialNode.getLat());
+        Double y = (m * (x - initialNode.getLat())) + initialNode.getLon();
+        return new Coord(x,y);
+
+    }
 }

@@ -96,4 +96,13 @@ public class Coord {
         return Math.sqrt(deltaX*deltaX + deltaY*deltaY);
     }
 
+    /**
+     * Compute the angle with another coordinate
+     * @param coord second coordinate
+     * @return double angle
+     */
+    public Double angleWith(Coord coord){
+        return Math.toDegrees(Math.atan2(coord.getLat() - this.latitude, coord.getLon() - this.longitude));
+    }
+
 }

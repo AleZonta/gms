@@ -3,6 +3,7 @@ package gms.Point;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Created by Alessandro Zonta on 15/05/2017.
@@ -15,6 +16,13 @@ import static org.junit.Assert.*;
  * a.zonta@vu.nl
  */
 public class CoordTest {
+    @Test
+    public void angleWith() throws Exception {
+        Coord start = new Coord(0.0,0.0);
+        Coord end = new Coord(5.0, 5.0);
+        assertEquals(new Double(45.0),start.angleWith(end));
+    }
+
     @Test
     public void distance() throws Exception {
         Coord start = new Coord(52.047668,4.335758);

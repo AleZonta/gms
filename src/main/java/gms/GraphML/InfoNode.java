@@ -1,5 +1,6 @@
 package gms.GraphML;
 
+import gms.Point.Coord;
 import org.jgrapht.VertexFactory;
 
 import java.util.HashMap;
@@ -112,6 +113,14 @@ public class InfoNode implements VertexFactory<InfoNode> {
     public Double getLon(){
         //x should be "x" element in this case.
         return new Double(this.values.getOrDefault("x", "0.0"));
+    }
+
+    /**
+     * Return the coordinate in a Coord object
+     * @return Coord Obj
+     */
+    public Coord getCoord(){
+        return new Coord(new Double(this.values.getOrDefault("y", "0.0")),new Double(this.values.getOrDefault("x", "0.0")));
     }
 
     /**
