@@ -30,7 +30,7 @@ public class GraphMLImporterTest {
     public void createFromFile() throws Exception {
         ReadConfig conf = new ReadConfig();
         conf.readFile();
-        Path path = Paths.get(conf.getPath());
+        Path path = Paths.get(conf.getPath(0));
         File file = path.toFile();
 
         //In this way I have created a reader.
@@ -43,7 +43,7 @@ public class GraphMLImporterTest {
     public void generateGraph() throws Exception {
         ReadConfig conf = new ReadConfig();
         conf.readFile();
-        Path path = Paths.get(conf.getPath());
+        Path path = Paths.get(conf.getPath(0));
         File file = path.toFile();
 
         //In this way I have created a reader.

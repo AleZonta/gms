@@ -1,5 +1,6 @@
 package gms.Config;
 
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -8,6 +9,9 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.IntStream;
 
 /**
  * Created by Alessandro Zonta on 11/05/2017.
@@ -22,9 +26,10 @@ import java.nio.file.Paths;
  * This class reads the config file with the info needed by the program
  */
 public class ReadConfig {
-    private String fileName;
+    private List<String> fileName;
     private String fileLocation;
-    private String path;
+    private List<String> path;
+    private Boolean usingMoreSources;
 
     /**
      * Method that returns the location of the file containing the graph
@@ -39,7 +44,7 @@ public class ReadConfig {
      * Method that returns the name of the file containing the graph
      * @return String with the name
      */
-    public String getFileName() throws Exception {
+    public List<String> getFileName() throws Exception {
         if(this.fileName == null) throw new Exception("Try to access config file before reading it.");
         return this.fileName;
     }
@@ -48,10 +53,11 @@ public class ReadConfig {
      * Method that returns the complete path of the file
      * path is the combination of file location and file name
      * @return String with the path
+     * @param position number of path to retrieve
      */
-    public String getPath() throws Exception {
+    public String getPath(Integer position) throws Exception {
         if(this.path == null) throw new Exception("Try to access config file before reading it.");
-        return this.path;
+        return this.path.get(position);
     }
 
     /**
@@ -60,8 +66,9 @@ public class ReadConfig {
      */
     public ReadConfig(){
         this.fileLocation = null;
-        this.fileName = null;
+        this.fileName = new ArrayList<>();
         this.path = null;
+        this.usingMoreSources = null;
     }
 
     /**
@@ -88,20 +95,42 @@ public class ReadConfig {
             throw new Exception("JSON file not well formatted.");
         }
         //reading the settings
-        this.fileName = (String) jsonObject.get("fileName");
+        JSONArray names = (JSONArray) jsonObject.get("fileName");
+        names.forEach(el -> this.fileName.add((String) el));
+        if(this.fileName.size() == 1){
+            this.usingMoreSources = Boolean.FALSE;
+        } else {
+            this.usingMoreSources = Boolean.TRUE;
+        }
+
         if (this.fileName == null || this.fileName.isEmpty()) throw new Exception("FileName is missing.");
         this.fileLocation = (String) jsonObject.get("fileLocation");
         if (this.fileLocation == null || this.fileLocation.isEmpty()) throw new Exception("FileLocation is missing.");
-        this.path = this.fileLocation + "/" + this.fileName;
+        //path is saying only first location
+        this.path = new ArrayList<>();
+        IntStream.range(0, this.fileName.size()).forEach(i -> this.path.add(this.fileLocation + "/" + this.fileName.get(i)));
+
     }
 
-
+    /**
+     * Override to string method
+     * @return string version of the config file
+     */
     @Override
     public String toString() {
         return "ReadConfig{" + "\n" +
-                "fileName='" + fileName + '\'' + ",\n" +
+                "fileName='" + fileName.toString() + '\'' + ",\n" +
                 "fileLocation='" + fileLocation + '\'' + ",\n" +
                 "path='" + path + '\'' + "\n" +
                 '}';
+    }
+
+    /**
+     * If there are more than one name that means I will use more source location, therefore this variable is true
+     * @return Boolean variable
+     */
+    public Boolean getUsingMoreSources() throws Exception {
+        if(this.usingMoreSources == null) throw new Exception("Try to access config file before reading it.");
+        return this.usingMoreSources;
     }
 }

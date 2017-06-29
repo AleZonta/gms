@@ -1,4 +1,4 @@
-package gms;
+package gms.LoadingSystem;
 
 import gms.GraphML.InfoEdge;
 import gms.GraphML.InfoNode;
@@ -8,9 +8,7 @@ import org.junit.Test;
 import java.util.List;
 import java.util.Set;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 /**
  * Created by Alessandro Zonta on 15/05/2017.
@@ -24,8 +22,38 @@ import static org.junit.Assert.assertTrue;
  */
 public class LoaderTest {
     @Test
+    public void findDistanceBetweenNodesConnected() throws Exception {
+    }
+
+    @Test
+    public void findPointInEdge() throws Exception {
+    }
+
+    @Test
+    public void computeminValueBoundaries() throws Exception {
+        System loader = new Loader();
+        loader.loadGraph();
+    }
+
+    @Test
+    public void insideBoundaries() throws Exception {
+        System loader = new Loader();
+
+
+        Coord coordB = new Coord(52.0366015, 4.3027702);
+        try{
+            loader.insideBoundaries(coordB);
+        }catch (Exception e){
+            assertEquals("Compute Boundaries before check if the element is present",e.getMessage());
+        }
+        loader.loadGraph();
+        assertTrue((Boolean) loader.insideBoundaries(coordB));
+        assertFalse((Boolean) loader.insideBoundaries(new Coord(52.0366015, 2.3027702)));
+    }
+
+    @Test
     public void retAllEndEdges() throws Exception {
-        Loader loader = new Loader();
+        System loader = new Loader();
         loader.loadGraph();
         Coord coordB = new Coord(52.0366015, 4.3027702);
         assertNotNull(loader.retAllEndEdges(loader.findNodes(coordB)));
@@ -33,7 +61,7 @@ public class LoaderTest {
 
     @Test
     public void isEdgeCloser() throws Exception {
-        Loader loader = new Loader();
+        System loader = new Loader();
         loader.loadGraph();
 
         Coord coordB = new Coord(52.0366015, 4.3027702);
@@ -45,7 +73,7 @@ public class LoaderTest {
 
     @Test
     public void findClosestEdge() throws Exception {
-        Loader loader = new Loader();
+        System loader = new Loader();
         loader.loadGraph();
 
         Coord start = new Coord(52.033872, 4.315144);
@@ -65,7 +93,7 @@ public class LoaderTest {
 
     @Test
     public void findPathBetweenNodes() throws Exception {
-        Loader loader = new Loader();
+        System loader = new Loader();
         loader.loadGraph();
 
         Coord start = new Coord(52.047668,4.335758);
@@ -91,7 +119,7 @@ public class LoaderTest {
 
     @Test
     public void findEdges() throws Exception {
-        Loader loader = new Loader();
+        System loader = new Loader();
         loader.loadGraph();
 
         Coord coord = new Coord();
@@ -101,25 +129,24 @@ public class LoaderTest {
 
         InfoNode node = loader.findNodes(coord);
         Set<InfoEdge> sets = loader.findEdges(node);
-
+        assertNotNull(sets);
 
         Coord coordq = new Coord(52.0366086, 4.3025929);
         InfoNode nodes = loader.findNodes(coordq);
-        Set<InfoEdge> setss = loader.findEdges(node);
-
-        String sasd = "";
+        Set<InfoEdge> setss = loader.findEdges(nodes);
+        assertNotNull(setss);
 
     }
 
     @Test
     public void loadGraph() throws Exception {
-        Loader loader = new Loader();
+        System loader = new Loader();
         loader.loadGraph();
     }
 
     @Test
     public void findNodes() throws Exception {
-        Loader loader = new Loader();
+        System loader = new Loader();
         loader.loadGraph();
 
         Coord coord = new Coord();
@@ -136,7 +163,24 @@ public class LoaderTest {
 
         Coord coords = new Coord(52.0366868, 4.3031489);
         InfoNode node1 = loader.findNodes(coords);
-        System.out.println(node1.retLat() + " " + node1.retLon());
+        //System.out.println(node1.retLat() + " " + node1.retLon());
+
+        //outside position
+        Coord coordss = new Coord(52.035610, 4.364193);
+        InfoNode node2 = loader.findNodes(coordss);
+        java.lang.System.out.println(node2.retLat() + " " + node2.retLon());
+
+        coordss = new Coord(52.002369, 4.327823);
+        node2 = loader.findNodes(coordss);
+        java.lang.System.out.println(node2.retLat() + " " + node2.retLon());
+
+        coordss = new Coord(52.004358, 4.217489);
+        node2 = loader.findNodes(coordss);
+        java.lang.System.out.println(node2.retLat() + " " + node2.retLon());
+
+        coordss = new Coord(52.099761, 4.270932);
+        node2 = loader.findNodes(coordss);
+        java.lang.System.out.println(node2.retLat() + " " + node2.retLon());
     }
 
 }

@@ -196,7 +196,7 @@ public class GraphMLImporter<V, E> implements GraphGenerator<V, E, V> {
                 Map<String, String> data = readData(node);
 
                 // create and prepare the node (before adding to graph)
-                V nodeV = useNodeIDAsNode ? (V) nodeID : vVertexFactory.createVertex();
+                V nodeV = vVertexFactory.createVertex();
 
                 nodeAttributeHandler.handle(nodeV, nodeID, buildAttributeGetter("node", idMap, data));
 

@@ -1,13 +1,10 @@
 package gms.Config;
 
-import gms.Config.ReadConfig;
 import org.junit.Test;
 
 import java.io.IOException;
 
-import static junit.framework.TestCase.assertEquals;
-import static junit.framework.TestCase.assertNotNull;
-import static junit.framework.TestCase.assertTrue;
+import static junit.framework.TestCase.*;
 
 /**
  * Created by Alessandro Zonta on 11/05/2017.
@@ -21,11 +18,11 @@ import static junit.framework.TestCase.assertTrue;
  */
 public class ReadConfigTest {
     @Test
-    public void getPath() throws Exception {
-        //test if I return a path -> that is not null and is the combination of location + name
+    public void getUsingMoreSources() throws Exception {
+        //test if I return a name -> that is not null
         ReadConfig conf = new ReadConfig();
         try {
-            conf.getPath();
+            conf.getFileName();
         } catch (Exception e) {
             assertTrue(e.getMessage().equals("Try to access config file before reading it.") );
         }
@@ -34,9 +31,28 @@ public class ReadConfigTest {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        assertNotNull(conf.getPath());
-        String total = conf.getFileLocation() + "/" + conf.getFileName();
-        assertEquals(total, conf.getPath());
+        assertNotNull(conf.getFileName());
+        assertTrue(conf.getFileName().size() == 1);
+        assertFalse(conf.getUsingMoreSources());
+    }
+
+    @Test
+    public void getPath() throws Exception {
+        //test if I return a path -> that is not null and is the combination of location + name
+        ReadConfig conf = new ReadConfig();
+        try {
+            conf.getPath(0);
+        } catch (Exception e) {
+            assertTrue(e.getMessage().equals("Try to access config file before reading it.") );
+        }
+        try {
+            conf.readFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        assertNotNull(conf.getPath(0));
+        String total = conf.getFileLocation() + "/" + conf.getFileName().get(0);
+        assertEquals(total, conf.getPath(0));
     }
 
     @Test
@@ -71,6 +87,7 @@ public class ReadConfigTest {
             e.printStackTrace();
         }
         assertNotNull(conf.getFileName());
+        assertTrue(conf.getFileName().size() == 1);
     }
 
     @Test
