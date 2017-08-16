@@ -104,4 +104,25 @@ public interface System {
      */
     Boolean isEdgeCloser(InfoEdge closestEdge, InfoNode nextPoint, Coord coord);
 
+
+    /**
+     * Method that returns the node from the given ID
+     * @param id id of the node
+     * @return node
+     */
+    InfoNode getNodeFromId(String id);
+
+
+    /**
+     * Return all the edge of the graph
+     * @return set of edges
+     */
+    Set<InfoEdge> getEdgeSet();
+
+    /**
+     * REturn all the nodes of the graph
+     * @return set of nodes
+     */
+    Set<InfoNode> getNodesSet();
+
 }

@@ -230,4 +230,31 @@ public class Loader extends AbstractSystem implements System{
         return Boolean.FALSE;
     }
 
+    /**
+     * Method that returns the node from the given ID
+     * @param id id of the node
+     * @return node
+     */
+    public InfoNode getNodeFromId(String id) {
+        return super.getNodeFromId(this.graph, id);
+    }
+
+
+    /**
+     * Return all the edge of the graph
+     * @return set of edges
+     */
+    public Set<InfoEdge> getEdgeSet(){
+        return this.graph.edgeSet();
+    }
+
+    /**
+     * REturn all the nodes of the graph
+     * @return set of nodes
+     */
+    public Set<InfoNode> getNodesSet(){
+        return  this.graph.vertexSet();
+    }
+
+
 }

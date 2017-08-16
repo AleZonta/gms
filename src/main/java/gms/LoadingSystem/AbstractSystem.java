@@ -1,5 +1,6 @@
 package gms.LoadingSystem;
 
+import Connections.DatabaseDistance;
 import gms.GraphML.InfoEdge;
 import gms.GraphML.InfoNode;
 import gms.Point.Coord;
@@ -7,6 +8,7 @@ import gms.Point.Haversine;
 import org.jgrapht.Graph;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Created by Alessandro Zonta on 29/06/2017.
@@ -21,6 +23,15 @@ import java.util.*;
  * Class implementing coomon method to the loaders
  */
 public abstract class AbstractSystem implements System{
+    private DatabaseDistance db; //database saving the distance
+
+    /**
+     * Constructor one element. Build the distance
+     */
+    public AbstractSystem(){
+        this.db = new DatabaseDistance();
+    }
+
 
     /**
      * Method that return the closest Nodes to the Coordinate given.
@@ -33,9 +44,28 @@ public abstract class AbstractSystem implements System{
         //retrieve all the Nodes
         Set<InfoNode> setOfNodes = graph.vertexSet();
         //save all the distance
-        Map<String, Double> distances = new HashMap<>();
+        Map<String, Double> distances = new ConcurrentHashMap<>();
         //Haversine Distance
-        setOfNodes.stream().forEach(infoNode -> distances.put(infoNode.getId(), Haversine.distance(coord.getLat(), coord.getLon(), infoNode.getLat(), infoNode.getLon())));
+
+        setOfNodes.parallelStream().forEach(infoNode ->  {
+
+            //If i am using the db system
+            Double dist = 0d;
+            if(this.db.getEnable()) {
+                //check if I have already found these two elements
+                Double dis = this.db.readData(coord.getLat(), coord.getLon(), infoNode.getLat(), infoNode.getLon());
+                if (dis == null) {
+                    //I have not found them. Need to compute
+                    dist = Haversine.distance(coord.getLat(), coord.getLon(), infoNode.getLat(), infoNode.getLon());
+                    this.db.insertData(coord.getLat(), coord.getLon(), infoNode.getLat(), infoNode.getLon(), dist);
+                }
+            }else{
+                dist = Haversine.distance(coord.getLat(), coord.getLon(), infoNode.getLat(), infoNode.getLon());
+            }
+
+
+            distances.put(infoNode.getId(), dist);
+        });
         //Euclidean Distance
 //        setOfNodes.stream().forEach(infoNode -> distances.put(infoNode.getId(), new Coord(new Double(infoNode.retLon()), new Double(infoNode.retLat())).distance(coord)));
         //find the min element
@@ -126,5 +156,17 @@ public abstract class AbstractSystem implements System{
             return Boolean.TRUE;
         }
         return Boolean.FALSE;
+    }
+
+    /**
+     * Method that returns the node from the given ID
+     * @param graph graph where to find the node
+     * @param id id of the node
+     * @return node
+     */
+    public InfoNode getNodeFromId(Graph<InfoNode, InfoEdge> graph, String id) {
+        //retrieve all the Nodes
+        Set<InfoNode> setOfNodes = graph.vertexSet();
+        return setOfNodes.stream().filter(x -> x.getId().equals(id)).findFirst().orElse(null);
     }
 }

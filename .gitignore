@@ -13,3 +13,4 @@ target/gms-1.0-SNAPSHOT.jar
 
 .idea/
 target/
+*.db

@@ -295,4 +295,35 @@ public class MultyLoader extends AbstractSystem  implements System{
         }
 
     }
+
+    /**
+     * Method that returns the node from the given ID
+     * @param id id of the node
+     * @return node
+     */
+    public InfoNode getNodeFromId(String id) {
+        for(Graph<InfoNode, InfoEdge> graph: this.graphs){
+            InfoNode res = super.getNodeFromId(graph, id);
+            if(res!=null) return res;
+        }
+        return null;
+    }
+
+    /**
+     * Return all the edge of the graph
+     * @return set of edges
+     */
+    @Override
+    public Set<InfoEdge> getEdgeSet() {
+        throw new NoSuchMethodError("Not jet implemented");
+    }
+
+    /**
+     * REturn all the nodes of the graph
+     * @return set of nodes
+     */
+    @Override
+    public Set<InfoNode> getNodesSet() {
+        throw new NoSuchMethodError("Not jet implemented");
+    }
 }

@@ -1,4 +1,6 @@
 {
   "fileName": ["Rijswijk2Small.graphml", "TheHagueSmall.graphml"],
-  "fileLocation": "/Users/alessandrozonta/PycharmProjects/roadNetwork/data"
+  "fileLocation": "/Users/alessandrozonta/PycharmProjects/roadNetwork/data",
+  "usingDB": false,
+  "dbNameDistance": " dbd"
 }
