@@ -40,6 +40,7 @@ public class MultyLoader extends AbstractSystem  implements System{
     private List<Coord> minValue;
     private List<Coord> maxValue;
     private Integer numOfGraph;
+    private Boolean optimisedGraph;
 
     /**
      * Constructor of the class with zero parameter
@@ -52,6 +53,7 @@ public class MultyLoader extends AbstractSystem  implements System{
         this.enginePaths = new ArrayList<>();
         this.minValue = new ArrayList<>();
         this.maxValue = new ArrayList<>();
+        this.optimisedGraph = Boolean.FALSE; //Not using the graph, default situation
     }
 
     /**
@@ -325,5 +327,23 @@ public class MultyLoader extends AbstractSystem  implements System{
     @Override
     public Set<InfoNode> getNodesSet() {
         throw new NoSuchMethodError("Not jet implemented");
+    }
+
+    /**
+     * Get the flag for using the KDtree or not
+     * @return Boolean variable
+     */
+    public Boolean getOptimisedGraph() {
+        return optimisedGraph;
+    }
+
+    /**
+     * Setter for the flag -> TRue I am using the KDTree, False not
+     * @param optimisedGraph Boolena value
+     */
+    @Override
+    public void setOptimisedGraph(Boolean optimisedGraph) {
+        if(optimisedGraph) throw new NoSuchMethodError("DkTree search not miplemented with multy graph");
+        this.optimisedGraph = optimisedGraph;
     }
 }

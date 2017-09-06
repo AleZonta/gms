@@ -125,4 +125,11 @@ public interface System {
      */
     Set<InfoNode> getNodesSet();
 
+
+    /**
+     * Setter for the flag -> TRue I am using the KDTree, False not
+     * @param optimisedGraph Boolena value
+     */
+    void setOptimisedGraph(Boolean optimisedGraph);
+
 }

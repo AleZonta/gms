@@ -158,4 +158,9 @@ public class WeightedGraph implements System{
     public Set<InfoNode> getNodesSet() {
         throw new NoSuchMethodError("This method is not implemented");
     }
+
+    @Override
+    public void setOptimisedGraph(Boolean optimisedGraph) {
+        throw new NoSuchMethodError("This method is not implemented");
+    }
 }
