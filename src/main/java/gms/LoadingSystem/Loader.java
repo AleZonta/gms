@@ -5,6 +5,7 @@ import gms.Config.ReadConfig;
 import gms.GraphML.GraphMLImporter;
 import gms.GraphML.InfoEdge;
 import gms.GraphML.InfoNode;
+import gms.KdTree.KdTree;
 import gms.Point.Coord;
 import org.jgrapht.Graph;
 import org.jgrapht.GraphPath;
@@ -41,6 +42,8 @@ public class Loader extends AbstractSystem implements System{
     //for the boundaries
     private Coord minValue;
     private Coord maxValue;
+    private Boolean optimisedGraph;
+
 
 
     /**
@@ -55,6 +58,8 @@ public class Loader extends AbstractSystem implements System{
         this.enginePath = null;
         this.minValue = null;
         this.maxValue = null;
+        this.kdTree = null;
+        this.optimisedGraph = Boolean.FALSE; //Not using the graph, default situation
     }
 
 
@@ -81,6 +86,12 @@ public class Loader extends AbstractSystem implements System{
 
         //compute boundaries
         this.computeBoundaries();
+
+
+        Set<InfoNode> setOfNodes = graph.vertexSet();
+        this.kdTree = new KdTree<>();
+        setOfNodes.forEach(node -> this.kdTree.add(new KdTree.XYZPoint(node)));
+
         logger.log(Level.INFO, "Graph loaded!");
     }
 
@@ -92,7 +103,11 @@ public class Loader extends AbstractSystem implements System{
      */
     @Override
     public InfoNode findNodes(Coord coord){
-        return this.findNode(this.graph, coord);
+        if(this.optimisedGraph){
+            return this.findNode(coord);
+        }else {
+            return this.findNode(this.graph, coord);
+        }
     }
 
     /**
@@ -257,4 +272,19 @@ public class Loader extends AbstractSystem implements System{
     }
 
 
+    /**
+     * Get the flag for using the KDtree or not
+     * @return Boolean variable
+     */
+    public Boolean getOptimisedGraph() {
+        return optimisedGraph;
+    }
+
+    /**
+     * Setter for the flag -> TRue I am using the KDTree, False not
+     * @param optimisedGraph Boolena value
+     */
+    public void setOptimisedGraph(Boolean optimisedGraph) {
+        this.optimisedGraph = optimisedGraph;
+    }
 }

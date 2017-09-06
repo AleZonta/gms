@@ -5,6 +5,8 @@ import gms.GraphML.InfoNode;
 import gms.Point.Coord;
 import org.junit.Test;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.util.List;
 import java.util.Set;
 
@@ -162,25 +164,38 @@ public class LoaderTest {
 
 
         Coord coords = new Coord(52.0366868, 4.3031489);
+        Instant start = Instant.now();
+
         InfoNode node1 = loader.findNodes(coords);
-        //System.out.println(node1.retLat() + " " + node1.retLon());
+        Instant end = Instant.now();
 
-        //outside position
-        Coord coordss = new Coord(52.035610, 4.364193);
-        InfoNode node2 = loader.findNodes(coordss);
-        java.lang.System.out.println(node2.retLat() + " " + node2.retLon());
+        java.lang.System.out.println(node1.retLat() + " " + node1.retLon());
+        java.lang.System.out.println(Duration.between(start, end));
 
-        coordss = new Coord(52.002369, 4.327823);
-        node2 = loader.findNodes(coordss);
+        ((Loader)loader).setOptimisedGraph(Boolean.TRUE);
+        start = Instant.now();
+        InfoNode node2 = loader.findNodes(coords);
+        end = Instant.now();
         java.lang.System.out.println(node2.retLat() + " " + node2.retLon());
+        java.lang.System.out.println(Duration.between(start, end));
 
-        coordss = new Coord(52.004358, 4.217489);
-        node2 = loader.findNodes(coordss);
-        java.lang.System.out.println(node2.retLat() + " " + node2.retLon());
 
-        coordss = new Coord(52.099761, 4.270932);
-        node2 = loader.findNodes(coordss);
-        java.lang.System.out.println(node2.retLat() + " " + node2.retLon());
+//        //outside position
+//        Coord coordss = new Coord(52.035610, 4.364193);
+//        InfoNode node2 = loader.findNodes(coordss);
+//        java.lang.System.out.println(node2.retLat() + " " + node2.retLon());
+//
+//        coordss = new Coord(52.002369, 4.327823);
+//        node2 = loader.findNodes(coordss);
+//        java.lang.System.out.println(node2.retLat() + " " + node2.retLon());
+//
+//        coordss = new Coord(52.004358, 4.217489);
+//        node2 = loader.findNodes(coordss);
+//        java.lang.System.out.println(node2.retLat() + " " + node2.retLon());
+//
+//        coordss = new Coord(52.099761, 4.270932);
+//        node2 = loader.findNodes(coordss);
+//        java.lang.System.out.println(node2.retLat() + " " + node2.retLon());
     }
 
 }

@@ -3,6 +3,7 @@ package gms.LoadingSystem;
 import Connections.DatabaseDistance;
 import gms.GraphML.InfoEdge;
 import gms.GraphML.InfoNode;
+import gms.KdTree.KdTree;
 import gms.Point.Coord;
 import gms.Point.Haversine;
 import org.jgrapht.Graph;
@@ -24,6 +25,8 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public abstract class AbstractSystem implements System{
     private DatabaseDistance db; //database saving the distance
+    //tree for find the closest node in a fastest way
+    protected KdTree<KdTree.XYZPoint> kdTree;
 
     /**
      * Constructor one element. Build the distance
@@ -73,6 +76,21 @@ public abstract class AbstractSystem implements System{
 
         //retrieve closest point -> it should never return null
         return setOfNodes.stream().filter(x -> x.getId().equals(min.getKey())).findFirst().orElse(null);
+    }
+
+    /**
+     * Method that return the closest Nodes to the Coordinate given.
+     * It usesd the {@link KdTree} build during the loading of the system
+     * @param coord coordinate of the point to find
+     * @return InfoNode node that are the closest to the coordinate given
+     */
+    protected InfoNode findNode(Coord coord){
+        //convert coord to XYZPoint
+        KdTree.XYZPoint pointConverted = new KdTree.XYZPoint(coord.getLon(), coord.getLat());
+        Integer k = 1; //how many nodes do I want to find
+        List<KdTree.XYZPoint> result = (List<KdTree.XYZPoint>) this.kdTree.nearestNeighbourSearch(1, pointConverted);
+        //should be only one point
+        return (InfoNode)result.get(0);
     }
 
 

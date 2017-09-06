@@ -1,6 +1,7 @@
 package gms.GraphML;
 
 import gms.Point.Coord;
+import lgds.trajectories.Point;
 import org.jgrapht.VertexFactory;
 
 import java.util.HashMap;
@@ -35,6 +36,7 @@ public class InfoNode implements VertexFactory<InfoNode> {
     public InfoNode(StringContinousFactory stringContinousFactory){
         this.stringContinousFactory = stringContinousFactory;
         this.id = stringContinousFactory.createVertex();
+        this.values = null;
     }
 
     /**
@@ -46,6 +48,18 @@ public class InfoNode implements VertexFactory<InfoNode> {
         this.stringContinousFactory = null;
         this.id = id;
         this.values = values;
+    }
+
+    /**
+     * Constructor one parameter
+     * @param point {@link Point} with coordinate
+     */
+    public InfoNode(Point point){
+        this.stringContinousFactory = null;
+        this.id = null;
+        this.values = new HashMap<>();
+        this.values.put("y", point.getLatitude().toString());
+        this.values.put("x", point.getLongitude().toString());
     }
 
     /**
@@ -165,4 +179,26 @@ public class InfoNode implements VertexFactory<InfoNode> {
 
         return node.id.equals(this.id) && node.values.equals(this.values);
     }
+
+    /**
+     * Computes the Euclidean distance from this point to the other.
+     *
+     * @param o1 other point.
+     * @return euclidean distance.
+     */
+    public double euclideanDistance(InfoNode o1) {
+        return euclideanDistance(o1, this);
+    }
+
+    /**
+     * Computes the Euclidean distance from one point to the other.
+     *
+     * @param o1 first point.
+     * @param o2 second point.
+     * @return euclidean distance.
+     */
+    private double euclideanDistance(InfoNode o1, InfoNode o2) {
+        return Math.sqrt(Math.pow((o1.getLat() - o2.getLat()), 2) + Math.pow((o1.getLon() - o2.getLon()), 2));
+    }
+
 }
