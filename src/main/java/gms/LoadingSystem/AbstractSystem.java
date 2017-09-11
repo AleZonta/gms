@@ -90,7 +90,7 @@ public abstract class AbstractSystem implements System{
         Integer k = 1; //how many nodes do I want to find
         List<KdTree.XYZPoint> result = (List<KdTree.XYZPoint>) this.kdTree.nearestNeighbourSearch(1, pointConverted);
         //should be only one point
-        return (InfoNode)result.get(0);
+        return result.get(0).getNode();
     }
 
 

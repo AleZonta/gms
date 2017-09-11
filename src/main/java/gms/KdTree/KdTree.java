@@ -580,7 +580,8 @@ public class KdTree<T extends KdTree.XYZPoint> implements Iterable<T> {
      *
      * Extend the normal {@link gms.GraphML.InfoNode}
      */
-    public static class XYZPoint extends InfoNode implements Comparable<XYZPoint> {
+    public static class XYZPoint implements Comparable<XYZPoint> {
+        private InfoNode node;
 
         /**
          * Constructor with one parameter
@@ -589,7 +590,7 @@ public class KdTree<T extends KdTree.XYZPoint> implements Iterable<T> {
          * @param y double value
          */
         public XYZPoint(Double x, Double y) {
-            super(new Point(y,x));
+            this.node = new InfoNode(new Point(y,x));
             //point has y latitude and x longitude
         }
 
@@ -599,7 +600,7 @@ public class KdTree<T extends KdTree.XYZPoint> implements Iterable<T> {
          * @param info {@link InfoNode} node
          */
         public XYZPoint(InfoNode info){
-            super(info.getId(), info.getValues());
+            this.node = info;
         }
 
 
@@ -608,7 +609,7 @@ public class KdTree<T extends KdTree.XYZPoint> implements Iterable<T> {
          * @return double value
          */
         public Double getX() {
-            return super.getLon();
+            return this.node.getLon();
         }
 
         /**
@@ -616,7 +617,7 @@ public class KdTree<T extends KdTree.XYZPoint> implements Iterable<T> {
          * @return double value
          */
         public Double getY() {
-            return super.getLat();
+            return this.node.getLat();
         }
 
         /**
@@ -626,7 +627,7 @@ public class KdTree<T extends KdTree.XYZPoint> implements Iterable<T> {
          * @return euclidean distance.
          */
         public double euclideanDistance(XYZPoint o1) {
-            return super.euclideanDistance(o1);
+            return this.node.euclideanDistance(o1.node);
         }
 
         /**
@@ -659,6 +660,13 @@ public class KdTree<T extends KdTree.XYZPoint> implements Iterable<T> {
         }
 
 
+        /**
+         * Get the original node
+         * @return {@link InfoNode} node
+         */
+        public InfoNode getNode() {
+            return this.node;
+        }
     }
 
 }
