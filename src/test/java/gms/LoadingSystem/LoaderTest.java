@@ -9,6 +9,7 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Logger;
 
 import static org.junit.Assert.*;
 
@@ -33,13 +34,15 @@ public class LoaderTest {
 
     @Test
     public void computeminValueBoundaries() throws Exception {
-        System loader = new Loader();
+        Logger log =  Logger.getLogger(LoaderTest.class.getName());
+        System loader = new Loader(log);
         loader.loadGraph();
     }
 
     @Test
     public void insideBoundaries() throws Exception {
-        System loader = new Loader();
+        Logger log =  Logger.getLogger(LoaderTest.class.getName());
+        System loader = new Loader(log);
 
 
         Coord coordB = new Coord(52.0366015, 4.3027702);
@@ -55,7 +58,8 @@ public class LoaderTest {
 
     @Test
     public void retAllEndEdges() throws Exception {
-        System loader = new Loader();
+        Logger log =  Logger.getLogger(LoaderTest.class.getName());
+        System loader = new Loader(log);
         loader.loadGraph();
         Coord coordB = new Coord(52.0366015, 4.3027702);
         assertNotNull(loader.retAllEndEdges(loader.findNodes(coordB)));
@@ -63,7 +67,8 @@ public class LoaderTest {
 
     @Test
     public void isEdgeCloser() throws Exception {
-        System loader = new Loader();
+        Logger log =  Logger.getLogger(LoaderTest.class.getName());
+        System loader = new Loader(log);
         loader.loadGraph();
 
         Coord coordB = new Coord(52.0366015, 4.3027702);
@@ -75,7 +80,8 @@ public class LoaderTest {
 
     @Test
     public void findClosestEdge() throws Exception {
-        System loader = new Loader();
+        Logger log =  Logger.getLogger(LoaderTest.class.getName());
+        System loader = new Loader(log);
         loader.loadGraph();
 
         Coord start = new Coord(52.033872, 4.315144);
@@ -95,7 +101,8 @@ public class LoaderTest {
 
     @Test
     public void findPathBetweenNodes() throws Exception {
-        System loader = new Loader();
+        Logger log =  Logger.getLogger(LoaderTest.class.getName());
+        System loader = new Loader(log);
         loader.loadGraph();
 
         Coord start = new Coord(52.047668,4.335758);
@@ -121,7 +128,8 @@ public class LoaderTest {
 
     @Test
     public void findEdges() throws Exception {
-        System loader = new Loader();
+        Logger log =  Logger.getLogger(LoaderTest.class.getName());
+        System loader = new Loader(log);
         loader.loadGraph();
 
         Coord coord = new Coord();
@@ -142,13 +150,15 @@ public class LoaderTest {
 
     @Test
     public void loadGraph() throws Exception {
-        System loader = new Loader();
+        Logger log =  Logger.getLogger(LoaderTest.class.getName());
+        System loader = new Loader(log);
         loader.loadGraph();
     }
 
     @Test
     public void findNodes() throws Exception {
-        System loader = new Loader();
+        Logger log =  Logger.getLogger(LoaderTest.class.getName());
+        System loader = new Loader(log);
         loader.loadGraph();
 
         Coord coord = new Coord();

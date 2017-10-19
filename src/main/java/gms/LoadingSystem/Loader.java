@@ -36,7 +36,7 @@ import static gms.GraphML.StringContinousFactory.FACTORY;
  */
 public class Loader extends AbstractSystem implements System{
     private final ReadConfig conf; //configuration object containing location where to read the graph
-    private static final Logger logger = Logger.getLogger(Loader.class.getName()); //logger for this class
+    private static Logger logger; //logger for this class
     private final Graph<InfoNode, InfoEdge> graph; //graph
     private DijkstraShortestPath<InfoNode, InfoEdge> enginePath;
     //for the boundaries
@@ -49,9 +49,11 @@ public class Loader extends AbstractSystem implements System{
     /**
      * Constructor with zero parameter
      * The config file is read.
+     * @param log logger
      * @throws Exception If the reading of the config file encounter in problems an exception is raised
      */
-    public Loader() throws Exception {
+    public Loader(Logger log) throws Exception {
+        logger = log;
         this.conf = new ReadConfig();
         this.conf.readFile();
         this.graph = new DirectedPseudograph<>(InfoEdge.class); //allows loops and multi-edges

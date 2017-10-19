@@ -14,6 +14,7 @@ import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.sql.SQLException;
 import java.util.*;
+import java.util.logging.Logger;
 
 /**
  * Created by Alessandro Zonta on 10/08/2017.
@@ -50,7 +51,8 @@ public class Preload {
      * @throws Exception
      */
     public void elaborate() throws Exception {
-        System loader = new Loader();
+        Logger log =  Logger.getLogger(Preload.class.getName());
+        System loader = new Loader(log);
         loader.loadGraph();
 
 
